@@ -7,12 +7,20 @@ public class ThrowBall : MonoBehaviour
     private Rigidbody ballRB;
 
 
-    public List<Vector3> mousepositions = new List<Vector3>();
-    public Vector3 midpoint;
-    public Vector3 mousedistance;
-    public float spin;
-    private const int POSITION_INTERVAL = 2;
-    private int current_interval;
+    private List<Vector3> mousepositions = new List<Vector3>();
+    private Vector3 midPoint;
+    private Vector3 midDistance;
+    private Vector3 ballForce;
+    private Vector3 ballTorque;
+    private float mousedistance;
+    private float spin;
+    private const int MOUSE_POSITION_INTERVAL = 1;
+    private const int SPEED_MODIFIER = 3;
+    private const int SPIN_MODIFIER = -2;
+    private const float OIL_ACCELERATION = 1.25f;
+    private const int OIL_ACCELERATION_INTERVAL = 50;
+    private int mouse_current_interval;
+    private int oil_current_interval;
     private float initial_time;
     private float end_time;
     private float total_time;
@@ -20,19 +28,26 @@ public class ThrowBall : MonoBehaviour
 
     private bool gotinittime;
     private bool ballthrown;
+    private bool hashit;
+
+
+    private LineRenderer trace;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         ballRB = GetComponent<Rigidbody>();
 
 
-        current_interval = 0;
+        mouse_current_interval = 0;
+        oil_current_interval = 0;
         initial_time = 0;
         end_time = 0;
 
-
+        gotinittime = false;
         ballthrown = false;
-        
+        hashit = false;
+
+        trace = GameObject.FindWithTag("TraceThrow").GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
@@ -48,24 +63,22 @@ public class ThrowBall : MonoBehaviour
             }
 
 
-            if (current_interval > 0)
+            if (mouse_current_interval > 0)
             {
-                if (current_interval >= POSITION_INTERVAL)
+                if (mouse_current_interval >= MOUSE_POSITION_INTERVAL)
                 {
-                    current_interval = 0;
+                    mouse_current_interval = 0;
                 }
                 else
                 {
-                    current_interval++;
+                    mouse_current_interval++;
                 }
             }
             else
             {
                 mousepositions.Add(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1.0f)));
-                //Debug.Log("Camera pos: " + Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1.0f)));
-                //Debug.Log("regular pos: " + Input.mousePosition);
 
-                current_interval++;
+                mouse_current_interval++;
             }
 
         }
@@ -73,33 +86,79 @@ public class ThrowBall : MonoBehaviour
 
         if (!Input.GetMouseButton(0))
         {
-            if (mousepositions.Count >= 3 && !ballthrown)
+            if (mousepositions.Count >= 2 && !ballthrown)
             {
                 ballthrown = true;
-
+                
 
                 end_time = Time.time;
                 total_time = end_time - initial_time;
 
 
-                mousedistance.x =  mousepositions[mousepositions.Count - 1].x - mousepositions[0].x;
-                mousedistance.z = mousepositions[mousepositions.Count - 1].y - mousepositions[0].y;
+                mousedistance = Vector3.Distance(mousepositions[0], mousepositions[mousepositions.Count - 1]);
 
-                Vector3 ballForce = mousedistance * 2;
-                ballRB.AddForce(ballForce, ForceMode.Impulse);
+                ballForce.x = (mousepositions[mousepositions.Count - 1].y - mousepositions[0].y) * SPEED_MODIFIER;
+                ballForce.y = mousepositions[mousepositions.Count - 1].x - mousepositions[0].x;
+                ballForce.z = (mousepositions[mousepositions.Count - 1].z - mousepositions[0].z) * SPEED_MODIFIER;
+
+                ballRB.velocity = ballForce / total_time;
+
 
                 //add torque on z axis to spin it
 
-                midpoint = mousepositions[mousepositions.Count / 2];
-                spin = midpoint.x / Vector3.Distance(mousepositions[0], mousepositions[mousepositions.Count - 1]);
 
-                Vector3 ballTorque = new Vector3(spin, 0f, 0f);
+                midPoint = mousepositions[mousepositions.Count / 2];
+                midDistance = (mousepositions[mousepositions.Count - 1] + mousepositions[0]) / 2;
+                mousedistance = Vector3.Distance(mousepositions[0], mousepositions[mousepositions.Count - 1]);
+                spin = (SPIN_MODIFIER * (midPoint.z - midDistance.z)) / mousedistance;
 
-                ballRB.AddRelativeTorque(ballTorque, ForceMode.Impulse);
+                ballTorque = new Vector3(spin, 0f, 0f);
 
-                Debug.DrawRay(transform.position, ballTorque * 1000, Color.cyan, 1000f);
-                Debug.DrawRay(transform.position, mousedistance * 1000, Color.magenta, 1000f);
+                ballRB.AddTorque(ballTorque, ForceMode.VelocityChange);
+
+
+                //trace throw path
+
+
+                trace.positionCount = mousepositions.Count;
+                for (int i = 0; i < mousepositions.Count; i++)
+                {
+                    Vector3 pos = new Vector3(mousepositions[i].x, mousepositions[i].y, mousepositions[i].z);
+
+                    trace.SetPosition(i, pos);
+                    trace.startWidth = 0.005f;
+                    trace.endWidth = 0.005f;
+                }
             }
+
+
+
+            if (!hashit && ballthrown)
+            {
+                if (oil_current_interval >= OIL_ACCELERATION_INTERVAL)
+                {
+                    ballRB.velocity *= OIL_ACCELERATION;
+
+                    ballRB.AddTorque(ballTorque, ForceMode.VelocityChange);
+
+
+                    oil_current_interval = 0;
+
+                    Debug.Log("Ball Speed: " + ballRB.velocity);
+                }
+                else
+                {
+                    oil_current_interval++;
+                }
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 7)
+        {
+            hashit = true;
         }
     }
 }
