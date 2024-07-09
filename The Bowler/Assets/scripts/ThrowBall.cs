@@ -81,6 +81,22 @@ public class ThrowBall : MonoBehaviour
                 mouse_current_interval++;
             }
 
+
+            if (mousepositions.Count > 0)
+            {
+                //trace throw path
+
+
+                trace.positionCount = mousepositions.Count;
+                for (int i = 0; i < mousepositions.Count; i++)
+                {
+                    Vector3 pos = new Vector3(mousepositions[i].x, mousepositions[i].y, mousepositions[i].z);
+
+                    trace.SetPosition(i, pos);
+                    trace.startWidth = 0.005f;
+                    trace.endWidth = 0.005f;
+                }
+            }
         }
 
 
@@ -115,20 +131,6 @@ public class ThrowBall : MonoBehaviour
                 ballTorque = new Vector3(spin, 0f, 0f);
 
                 ballRB.AddTorque(ballTorque, ForceMode.VelocityChange);
-
-
-                //trace throw path
-
-
-                trace.positionCount = mousepositions.Count;
-                for (int i = 0; i < mousepositions.Count; i++)
-                {
-                    Vector3 pos = new Vector3(mousepositions[i].x, mousepositions[i].y, mousepositions[i].z);
-
-                    trace.SetPosition(i, pos);
-                    trace.startWidth = 0.005f;
-                    trace.endWidth = 0.005f;
-                }
             }
 
 

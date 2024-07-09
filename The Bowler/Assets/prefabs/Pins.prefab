@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8565972894870772907}
+  - component: {fileID: 8596540612943466799}
   m_Layer: 0
   m_Name: Pins
   m_TagString: Untagged
@@ -33,14 +34,26 @@ Transform:
   - {fileID: 1385603108433491457}
   - {fileID: 7826315541121452180}
   - {fileID: 4798727833032289231}
-  - {fileID: 3237830199897806368}
+  - {fileID: 1644204084555045073}
   - {fileID: 5952500710401921769}
   - {fileID: 5022845106844812791}
   - {fileID: 6686193571680621824}
   - {fileID: 5250976735075686817}
-  - {fileID: 8705846003649040278}
+  - {fileID: 4823099421134143835}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8596540612943466799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4025517842049741404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d069ac0133adc384691a8695cdaabefe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1499744912117964521
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 3008026204010011230, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
       propertyPath: m_Name
-      value: Pin_1
+      value: Pin_01
       objectReference: {fileID: 0}
     - target: {fileID: 4196923355428196046, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
@@ -126,7 +139,7 @@ PrefabInstance:
     - target: {fileID: 3008026204010011230, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
       propertyPath: m_Name
-      value: Pin_2
+      value: Pin_02
       objectReference: {fileID: 0}
     - target: {fileID: 4196923355428196046, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
@@ -200,7 +213,7 @@ PrefabInstance:
     - target: {fileID: 3008026204010011230, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
       propertyPath: m_Name
-      value: Pin_5
+      value: Pin_05
       objectReference: {fileID: 0}
     - target: {fileID: 4196923355428196046, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
@@ -257,7 +270,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7facb4ecb7836d40bc3256b0dcb8c20, type: 3}
---- !u!4 &3237830199897806368 stripped
+--- !u!4 &1644204084555045073 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4196923355428196046, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
     type: 3}
@@ -274,7 +287,7 @@ PrefabInstance:
     - target: {fileID: 3008026204010011230, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
       propertyPath: m_Name
-      value: Pin_3
+      value: Pin_03
       objectReference: {fileID: 0}
     - target: {fileID: 4196923355428196046, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
@@ -348,7 +361,7 @@ PrefabInstance:
     - target: {fileID: 3008026204010011230, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
       propertyPath: m_Name
-      value: Pin_8
+      value: Pin_08
       objectReference: {fileID: 0}
     - target: {fileID: 4196923355428196046, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
@@ -422,7 +435,7 @@ PrefabInstance:
     - target: {fileID: 3008026204010011230, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
       propertyPath: m_Name
-      value: Pin_6
+      value: Pin_06
       objectReference: {fileID: 0}
     - target: {fileID: 4196923355428196046, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
@@ -496,7 +509,7 @@ PrefabInstance:
     - target: {fileID: 3008026204010011230, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
       propertyPath: m_Name
-      value: Pin_9
+      value: Pin_09
       objectReference: {fileID: 0}
     - target: {fileID: 4196923355428196046, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
@@ -570,7 +583,7 @@ PrefabInstance:
     - target: {fileID: 3008026204010011230, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
       propertyPath: m_Name
-      value: Pin_4
+      value: Pin_04
       objectReference: {fileID: 0}
     - target: {fileID: 4196923355428196046, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
@@ -701,7 +714,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7facb4ecb7836d40bc3256b0dcb8c20, type: 3}
---- !u!4 &8705846003649040278 stripped
+--- !u!4 &4823099421134143835 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4196923355428196046, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
     type: 3}
@@ -718,7 +731,7 @@ PrefabInstance:
     - target: {fileID: 3008026204010011230, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
       propertyPath: m_Name
-      value: Pin_7
+      value: Pin_07
       objectReference: {fileID: 0}
     - target: {fileID: 4196923355428196046, guid: f7facb4ecb7836d40bc3256b0dcb8c20,
         type: 3}
