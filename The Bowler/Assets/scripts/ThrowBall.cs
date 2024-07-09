@@ -15,8 +15,8 @@ public class ThrowBall : MonoBehaviour
     private float mousedistance;
     private float spin;
     private const int MOUSE_POSITION_INTERVAL = 1;
-    private const int SPEED_MODIFIER = 3;
-    private const int SPIN_MODIFIER = -2;
+    private const int SPEED_MODIFIER = 4;
+    private const float SPIN_MODIFIER = -2.66f;
     private const float OIL_ACCELERATION = 1.25f;
     private const int OIL_ACCELERATION_INTERVAL = 50;
     private int mouse_current_interval;
@@ -118,6 +118,8 @@ public class ThrowBall : MonoBehaviour
                 ballForce.z = (mousepositions[mousepositions.Count - 1].z - mousepositions[0].z) * SPEED_MODIFIER;
 
                 ballRB.velocity = ballForce / total_time;
+
+                ballRB.AddForce(ballForce, ForceMode.Impulse);
 
 
                 //add torque on z axis to spin it

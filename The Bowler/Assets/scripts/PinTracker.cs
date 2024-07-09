@@ -5,8 +5,8 @@ using UnityEngine;
 public class PinTracker : MonoBehaviour
 {
 
-    private List<pinPosition> initPinPos = new List<pinPosition>();
-    private List<pinPosition> currentPinPos = new List<pinPosition>();
+    public List<pinPosition> initPinPos = new List<pinPosition>();
+    public List<pinPosition> currentPinPos = new List<pinPosition>();
 
 
     private bool cancheck;
@@ -18,12 +18,15 @@ public class PinTracker : MonoBehaviour
             initPinPos.Add(transform.GetChild(i).GetComponent<pinInfo>().getPinPos());
             currentPinPos.Add(transform.GetChild(i).GetComponent<pinInfo>().getPinPos());
         }
+
+        cancheck = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         checkPos();
+        killPin();
     }
 
     IEnumerator checkWait()
@@ -46,6 +49,28 @@ public class PinTracker : MonoBehaviour
                     if (transform.GetChild(i).GetComponent<pinInfo>().getPinPos().pinNum == currentPinPos[i].pinNum)
                     {
                         currentPinPos[i] = transform.GetChild(i).GetComponent<pinInfo>().getPinPos();
+                    }
+                }
+            }
+        }
+    }
+
+    void killPin()
+    {
+        if (cancheck)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                for (int j = 0; j < currentPinPos.Count; j++)
+                {
+                    if (transform.GetChild(i).GetComponent<pinInfo>().getPinPos().pinNum == currentPinPos[i].pinNum &&
+                        (currentPinPos[i].pinPos != initPinPos[i].pinPos || currentPinPos[i].pinRot != initPinPos[i].pinRot))
+                    {
+                        Destroy(transform.GetChild(i).gameObject);
+
+                        Debug.Log("kill");
+                        
+                        break;
                     }
                 }
             }

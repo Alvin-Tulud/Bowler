@@ -17,5 +17,7 @@ public enum pinNumber
 public struct pinPosition
 {
     public pinNumber pinNum;
-    public Transform pinPos;
+    public Vector3 pinPos;
+    public Quaternion pinRot;
+    public bool isHit;
 }
