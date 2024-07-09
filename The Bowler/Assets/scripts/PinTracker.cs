@@ -11,22 +11,29 @@ public class PinTracker : MonoBehaviour
 
     private bool cancheck;
     private bool canKill;
+    private bool gotInfo;
 
     void Awake()
     {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            initPinPos.Add(transform.GetChild(i).GetComponent<pinInfo>().getPinPos());
-            currentPinPos.Add(transform.GetChild(i).GetComponent<pinInfo>().getPinPos());
-        }
-
         cancheck = true;
         canKill = false;
+        gotInfo = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!gotInfo)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                initPinPos.Add(transform.GetChild(i).GetComponent<pinInfo>().getPinPos());
+                currentPinPos.Add(transform.GetChild(i).GetComponent<pinInfo>().getPinPos());
+            }
+
+            gotInfo = true;
+        }
+
         checkPos();
         killCheck();
         
@@ -59,6 +66,8 @@ public class PinTracker : MonoBehaviour
                     }
                 }
             }
+
+            //Debug.Log("check");
         }
     }
 
@@ -80,6 +89,7 @@ public class PinTracker : MonoBehaviour
                     }
                 }
             }
+            //Debug.Log("cankill");
 
             StartCoroutine(checkWait());
         }
@@ -87,18 +97,20 @@ public class PinTracker : MonoBehaviour
 
     IEnumerator killPin()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
 
         {
             for (int i = 0; i < transform.childCount; i++)
             {
                 for (int j = 0; j < currentPinPos.Count; j++)
                 {
+                    //Debug.Log(transform.GetChild(i).name + ":" + currentPinPos[i].pinNum + ": " + (transform.GetChild(i).GetComponent<pinInfo>().getPinPos().pinNum == currentPinPos[i].pinNum && (currentPinPos[i].pinPos != initPinPos[i].pinPos || currentPinPos[i].pinRot != initPinPos[i].pinRot) && currentPinPos[i].isHit));
+
                     if (transform.GetChild(i).GetComponent<pinInfo>().getPinPos().pinNum == currentPinPos[i].pinNum &&
                         (currentPinPos[i].pinPos != initPinPos[i].pinPos || currentPinPos[i].pinRot != initPinPos[i].pinRot) &&
                         currentPinPos[i].isHit)
                     {
-                        Debug.Log("kill: " + transform.GetChild(i).name);
+                        //Debug.Log("kill: " + transform.GetChild(i).name);
                         Destroy(transform.GetChild(i).gameObject);
 
                         break;

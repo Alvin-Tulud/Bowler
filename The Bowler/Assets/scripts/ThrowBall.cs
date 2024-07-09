@@ -148,7 +148,7 @@ public class ThrowBall : MonoBehaviour
 
                     oil_current_interval = 0;
 
-                    Debug.Log("Ball Speed: " + ballRB.velocity);
+                    //Debug.Log("Ball Speed: " + ballRB.velocity);
                 }
                 else
                 {

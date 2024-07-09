@@ -10,7 +10,11 @@ public class pinInfo : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        pinPos.pinNum = (pinNumber) int.Parse(transform.name.Substring(name.Length - 2));
+        pinPos.pinNum = int.Parse(transform.name.Substring(name.Length - 2));
+
+        //Debug.Log(transform.name.Substring(name.Length - 2));
+        //Debug.Log(int.TryParse(transform.name.Substring(name.Length - 2), out int thing) + " : " + thing);
+
         pinPos.pinPos = transform.position;
         pinPos.pinRot = transform.rotation;
         pinPos.isHit = false;
@@ -38,10 +42,10 @@ public class pinInfo : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == 7 ||
-            collision.gameObject.layer == 6)
+        if ((collision.transform.CompareTag("Ball") || collision.transform.CompareTag("Pin")) && !pinPos.isHit)
         {
             Debug.Log(name + ": layer hit: " + collision.gameObject.layer);
+
             pinPos.isHit = true;
         }
     }
