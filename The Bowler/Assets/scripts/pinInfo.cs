@@ -38,9 +38,10 @@ public class pinInfo : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == gameObject.layer ||
+        if (collision.gameObject.layer == 7 ||
             collision.gameObject.layer == 6)
         {
+            Debug.Log(name + ": layer hit: " + collision.gameObject.layer);
             pinPos.isHit = true;
         }
     }
