@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PinTracker : MonoBehaviour
@@ -9,17 +10,19 @@ public class PinTracker : MonoBehaviour
     private List<pinPosition> currentPinPos = new List<pinPosition>();
 
 
-    private bool cancheck;
+    private bool canCheck;
     private bool canKill;
     private bool gotInfo;
+    private bool canReset;
 
     public GameObject pinObj;
 
     void Awake()
     {
-        cancheck = true;
+        canCheck = true;
         canKill = false;
         gotInfo = false;
+        canReset = false;
     }
 
     // Update is called once per frame
@@ -47,16 +50,16 @@ public class PinTracker : MonoBehaviour
 
     IEnumerator checkWait()
     {
-        cancheck = false;
+        canCheck = false;
 
         yield return new WaitForSeconds(5);
 
-        cancheck = true;
+        canCheck = true;
     }
 
     void checkPos()
     {
-        if (cancheck)
+        if (canCheck)
         {
             for (int i = 0; i < transform.childCount; i++)
             {
@@ -75,7 +78,7 @@ public class PinTracker : MonoBehaviour
 
     void killCheck()
     {
-        if (cancheck)
+        if (canCheck)
         {
             for (int i = 0; i < transform.childCount; i++)
             {
@@ -99,26 +102,53 @@ public class PinTracker : MonoBehaviour
 
     IEnumerator killPin()
     {
-        yield return new WaitForSeconds(2);
-
+        if (!canReset)
         {
-            for (int i = 0; i < transform.childCount; i++)
+            yield return new WaitForSeconds(2);
+
             {
-                for (int j = 0; j < currentPinPos.Count; j++)
+                for (int i = 0; i < transform.childCount; i++)
                 {
-                    //Debug.Log(transform.GetChild(i).name + ":" + currentPinPos[i].pinNum + ": " + (transform.GetChild(i).GetComponent<pinInfo>().getPinPos().pinNum == currentPinPos[i].pinNum && (currentPinPos[i].pinPos != initPinPos[i].pinPos || currentPinPos[i].pinRot != initPinPos[i].pinRot) && currentPinPos[i].isHit));
-
-                    if (transform.GetChild(i).GetComponent<pinInfo>().getPinPos().pinNum == currentPinPos[i].pinNum &&
-                        (currentPinPos[i].pinPos != initPinPos[i].pinPos || currentPinPos[i].pinRot != initPinPos[i].pinRot) &&
-                        currentPinPos[i].isHit)
+                    for (int j = 0; j < currentPinPos.Count; j++)
                     {
-                        //Debug.Log("kill: " + transform.GetChild(i).name);
-                        Destroy(transform.GetChild(i).gameObject);
+                        //Debug.Log(transform.GetChild(i).name + ":" + currentPinPos[i].pinNum + ": " + (transform.GetChild(i).GetComponent<pinInfo>().getPinPos().pinNum == currentPinPos[i].pinNum && (currentPinPos[i].pinPos != initPinPos[i].pinPos || currentPinPos[i].pinRot != initPinPos[i].pinRot) && currentPinPos[i].isHit));
 
-                        break;
+                        if (transform.GetChild(i).GetComponent<pinInfo>().getPinPos().pinNum == currentPinPos[i].pinNum &&
+                            (currentPinPos[i].pinPos != initPinPos[i].pinPos || currentPinPos[i].pinRot != initPinPos[i].pinRot) &&
+                            currentPinPos[i].isHit)
+                        {
+                            //Debug.Log("kill: " + transform.GetChild(i).name);
+                            Destroy(transform.GetChild(i).gameObject);
+
+                            break;
+                        }
                     }
                 }
             }
+
+            canReset = true;
         }
     }
+
+    public void resetPins()
+    {
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy (transform.GetChild(i).gameObject);
+        }
+
+
+        for (int i = 0; i < initPinPos.Count; i++)
+        {
+            GameObject pinSpawn;
+
+            pinSpawn = Instantiate(pinObj, initPinPos[i].pinPos, initPinPos[i].pinRot, transform);
+
+            pinSpawn.name = "Pin_" + (i + 1).ToString("D2");
+        }
+    }
+
+    public bool getCanReset() {  return canReset; }
+
+    public void setCanReset(bool set) { canReset = set; }
 }
