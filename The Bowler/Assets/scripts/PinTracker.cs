@@ -5,13 +5,15 @@ using UnityEngine;
 public class PinTracker : MonoBehaviour
 {
 
-    public List<pinPosition> initPinPos = new List<pinPosition>();
-    public List<pinPosition> currentPinPos = new List<pinPosition>();
+    private List<pinPosition> initPinPos = new List<pinPosition>();
+    private List<pinPosition> currentPinPos = new List<pinPosition>();
 
 
     private bool cancheck;
     private bool canKill;
     private bool gotInfo;
+
+    public GameObject pinObj;
 
     void Awake()
     {
@@ -97,7 +99,7 @@ public class PinTracker : MonoBehaviour
 
     IEnumerator killPin()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
 
         {
             for (int i = 0; i < transform.childCount; i++)
