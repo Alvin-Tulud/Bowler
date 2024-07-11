@@ -44,7 +44,7 @@ public class pinInfo : MonoBehaviour
     {
         if ((collision.transform.CompareTag("Ball") || collision.transform.CompareTag("Pin")) && !pinPos.isHit)
         {
-            Debug.Log(name + ": layer hit: " + collision.gameObject.layer);
+            //Debug.Log(name + ": layer hit: " + collision.gameObject.layer);
 
             pinPos.isHit = true;
         }
